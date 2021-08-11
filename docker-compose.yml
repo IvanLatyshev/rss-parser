@@ -1,0 +1,21 @@
+version: '3'
+services:
+  nginx:
+    container_name: nginx-lara
+    depends_on:
+      - lara
+    build:
+      context: docker-compose/nginx
+      dockerfile: Dockerfile.nginx.dev
+    restart: always
+    ports:
+      - '3000:80'
+  lara:
+    container_name: lara
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+    - .:/var/www
+    environment:
+      - TZ=Europe/Moscow
