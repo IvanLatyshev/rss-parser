@@ -6,6 +6,7 @@ use App\Models\News;
 use App\Modules\NewsParser\Services\NewsParseService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ParseNewsCommand extends Command
 {
@@ -40,7 +41,17 @@ class ParseNewsCommand extends Command
      */
     public function handle()
     {
-        $rss = \Feed::load('http://static.feed.rbc.ru/rbc/logical/footer/news.rss');
+        try {
+            $rss = \Feed::load('http://static.feed.rbc.ru/rbc/logical/footer/news.rss');
+        } catch (\FeedException $e) {
+            Log::error('Failed to request rss', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            $this->error($e->getMessage());
+            return 1;
+        }
 
         $news = [];
         $newsParseService = new NewsParseService();
@@ -62,6 +73,8 @@ class ParseNewsCommand extends Command
                 unset($news[$existingNewsId]);
             }
         }
+
+        Log::info('Will be added news from rss', $news);
 
         News::query()->insert($news);
 
