@@ -13,5 +13,5 @@ RUN chmod 0644 /etc/cron.d/lara-cron
 RUN touch /var/log/cron.log
 
 
-CMD ["cron", "-f"]crontab
+CMD ["cron", "-f"]
 
