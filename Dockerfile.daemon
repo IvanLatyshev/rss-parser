@@ -1,0 +1,17 @@
+FROM php:8.0.3-fpm
+
+WORKDIR '/var/www'
+
+RUN apt-get update && \
+    apt-get install -y libpq-dev && \
+    docker-php-ext-install pdo pdo_pgsql pgsql
+
+RUN apt-get -y install cron
+
+ADD crontab /etc/cron.d/lara-cron
+RUN chmod 0644 /etc/cron.d/lara-cron
+RUN touch /var/log/cron.log
+
+
+CMD ["cron", "-f"]crontab
+

@@ -31,3 +31,12 @@ services:
             - .:/var/www
         environment:
             - TZ=Europe/Moscow
+    lara-daemon:
+        container_name: lara-daemon
+        build:
+            context: .
+            dockerfile: Dockerfile.daemon
+        volumes:
+            - .:/var/www
+        environment:
+            - TZ=Europe/Moscow
