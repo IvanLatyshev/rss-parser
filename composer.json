@@ -12,7 +12,9 @@
         "laravel/framework": "^8.54",
         "laravel/tinker": "^2.5",
         "ext-simplexml": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-libxml": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

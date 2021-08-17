@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\News;
 use App\Modules\NewsParser\Services\NewsParseService;
+use App\Services\Feed;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -42,7 +43,7 @@ class ParseNewsCommand extends Command
     public function handle()
     {
         try {
-            $rss = \Feed::load('http://static.feed.rbc.ru/rbc/logical/footer/news.rss');
+            $rss = Feed::load('http://static.feed.rbc.ru/rbc/logical/footer/news.rss');
         } catch (\FeedException $e) {
             Log::error('Failed to request rss', [
                 'message' => $e->getMessage(),
