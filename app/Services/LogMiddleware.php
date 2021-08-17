@@ -22,7 +22,7 @@ class LogMiddleware
                     static function (Response $response) use ($logger, $url, $requestDateTime, $method): ResponseInterface {
                         $statusCode = $response->getStatusCode();
                         $responseBody = (string)$response->getBody();
-                        $logger->debug('Request and response data', [
+                        $logger->debug('Request and response data for rss', [
                             'method' => $method,
                             'made_at' => $requestDateTime->toIso8601String(),
                             'url' => $url,
@@ -34,5 +34,6 @@ class LogMiddleware
                     },
                 );
             };
-        };    }
+        };
+    }
 }

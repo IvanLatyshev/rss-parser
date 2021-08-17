@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Logging\DatabaseLogger;
 use Feed as LibFeed;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
+use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Psr\Log\LoggerInterface;
 use SimpleXMLElement;
 
@@ -46,7 +49,9 @@ class Feed extends LibFeed
 
     private static function httpRequest($url, $user, $pass)
     {
-        $logger = app()->make(LoggerInterface::class);
+        /** @var Logger $logger */
+        $logger = new DatabaseLogger();
+
         $stack = HandlerStack::create();
         $stack->push(
             LogMiddleware::debugRequest(
